@@ -62,7 +62,7 @@ feature_inputs = important_features + list(optional_features.values())
 # Prediction
 if st.sidebar.button("Predict Credit Risk"):
     features_array = np.array([feature_inputs])
-    st.write(f"Input features: {feature_inputs}")
+    # st.write(f"Input features: {feature_inputs}")
     try:
         prediction = model.predict(features_array)
         
