@@ -10,7 +10,27 @@ st.title("Credit Risk Prediction Dashboard")
 
 st.sidebar.header("User Input Features")
 
-# Focus on the most important features
+# Define features in the correct format
+features = [
+    "loan_percent_income",
+    "loan_int_rate",
+    "person_income",
+    "loan_amnt",
+    "person_home_ownership_RENT",
+    "person_emp_length",
+    "person_age",
+    "cb_person_cred_hist_length",
+    "cb_person_default_on_file_Y",
+    "person_home_ownership_OWN",
+    "loan_intent_HOMEIMPROVEMENT",
+    "loan_intent_MEDICAL",
+    "loan_intent_EDUCATION",
+    "loan_intent_PERSONAL",
+    "loan_intent_VENTURE",
+    "person_home_ownership_OTHER"
+]
+
+# Separate important and optional features
 important_features = [
     "loan_percent_income",
     "loan_int_rate",
@@ -22,14 +42,15 @@ important_features = [
 
 optional_features = [
     "person_home_ownership_RENT",
-    "person_home_ownership_OTHER",
-    "person_home_ownership_OWN",
+    "person_emp_length",
     "cb_person_default_on_file_Y",
+    "person_home_ownership_OWN",
     "loan_intent_HOMEIMPROVEMENT",
     "loan_intent_MEDICAL",
     "loan_intent_EDUCATION",
     "loan_intent_PERSONAL",
-    "loan_intent_VENTURE"
+    "loan_intent_VENTURE",
+    "person_home_ownership_OTHER"
 ]
 
 feature_inputs = []
@@ -60,7 +81,5 @@ if st.button("Predict Credit Risk"):
         st.error(f"Prediction failed: {e}")
 
 st.markdown("\n**Note:** This is a demo app. The prediction is based on the input features and model logic.")
-
-# Let me know if you want to tweak anything! 🚀
 
 # Let me know if you want to tweak anything! 🚀
