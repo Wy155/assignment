@@ -19,9 +19,19 @@ loan_int_rate = st.sidebar.number_input("Loan Interest Rate (%)", min_value=0.0,
 loan_percent_income = st.sidebar.number_input("Loan Percent Income (%)", min_value=0.0, max_value=100.0, value=20.0)
 cb_person_cred_hist_length = st.sidebar.number_input("Credit History Length (Years)", min_value=0, value=10, step=1)
 
-# Optional features
+# Optional features with default values
 st.sidebar.subheader("Optional Features")
-optional_features = {}
+optional_features = {
+    'person_home_ownership_RENT': 0,
+    'person_home_ownership_OWN': 0,
+    'cb_person_default_on_file_Y': 0,
+    'loan_intent_HOMEIMPROVEMENT': 0,
+    'loan_intent_MEDICAL': 0,
+    'loan_intent_EDUCATION': 0,
+    'loan_intent_PERSONAL': 0,
+    'loan_intent_VENTURE': 0,
+    'person_home_ownership_OTHER': 0
+}
 
 if st.sidebar.checkbox("Include Home Ownership (RENT)"):
     optional_features['person_home_ownership_RENT'] = st.sidebar.number_input("Home Ownership (RENT) (0 or 1)", min_value=0, max_value=1, value=0)
@@ -37,12 +47,12 @@ if st.sidebar.checkbox("Include Loan Intent"):
 
 # Prepare features for prediction
 important_features = [
-    person_age,
-    person_income,
-    person_emp_length,
-    loan_amnt,
-    loan_int_rate,
     loan_percent_income,
+    loan_int_rate,
+    person_income,
+    loan_amnt,
+    person_emp_length,
+    person_age,
     cb_person_cred_hist_length
 ]
 
@@ -65,5 +75,4 @@ if st.sidebar.button("Predict Credit Risk"):
         st.error(f"Prediction failed: {e}")
 
 st.markdown("\n**Note:** This is a demo app. The prediction is based on the input features and model logic.")
-
 # Let me know if you want me to refine this further! 🚀
