@@ -1,10 +1,16 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
+
+# Check for Plotly installation
+try:
+    import plotly.express as px
+except ModuleNotFoundError:
+    st.error("Plotly is not installed. Please run 'pip install plotly' or add it to your requirements.txt.")
+    st.stop()
 
 # Load or train the model
 MODEL_FILE = 'credit_risk.joblib'
