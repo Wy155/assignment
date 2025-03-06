@@ -10,18 +10,7 @@ st.title("Credit Risk Prediction Dashboard")
 
 st.sidebar.header("User Input Features")
 
-# Define features in the correct format
-features = [
-    "person_age",
-    "person_income",
-    "person_emp_length",
-    "loan_amnt",
-    "loan_int_rate",
-    "loan_percent_income",
-    "cb_person_cred_hist_length"
-]
-
-# Collect user inputs in the sidebar
+# Collect important features in the sidebar
 person_age = st.sidebar.number_input("Age", min_value=18, max_value=100, value=30, step=1)
 person_income = st.sidebar.number_input("Income ($)", min_value=0.0, value=50000.0)
 person_emp_length = st.sidebar.number_input("Employment Length (Years)", min_value=0, value=5, step=1)
@@ -30,8 +19,24 @@ loan_int_rate = st.sidebar.number_input("Loan Interest Rate (%)", min_value=0.0,
 loan_percent_income = st.sidebar.number_input("Loan Percent Income (%)", min_value=0.0, max_value=100.0, value=20.0)
 cb_person_cred_hist_length = st.sidebar.number_input("Credit History Length (Years)", min_value=0, value=10, step=1)
 
+# Optional features
+st.sidebar.subheader("Optional Features")
+optional_features = {}
+
+if st.sidebar.checkbox("Include Home Ownership (RENT)"):
+    optional_features['person_home_ownership_RENT'] = st.sidebar.number_input("Home Ownership (RENT) (0 or 1)", min_value=0, max_value=1, value=0)
+if st.sidebar.checkbox("Include Home Ownership (OWN)"):
+    optional_features['person_home_ownership_OWN'] = st.sidebar.number_input("Home Ownership (OWN) (0 or 1)", min_value=0, max_value=1, value=0)
+if st.sidebar.checkbox("Include Default on File (Y)"):
+    optional_features['cb_person_default_on_file_Y'] = st.sidebar.number_input("Default on File (Y) (0 or 1)", min_value=0, max_value=1, value=0)
+if st.sidebar.checkbox("Include Loan Intent"):
+    loan_intent_options = ['HOMEIMPROVEMENT', 'MEDICAL', 'EDUCATION', 'PERSONAL', 'VENTURE']
+    selected_intent = st.sidebar.selectbox("Select Loan Intent", loan_intent_options)
+    for intent in loan_intent_options:
+        optional_features[f'loan_intent_{intent}'] = 1 if intent == selected_intent else 0
+
 # Prepare features for prediction
-feature_inputs = [
+important_features = [
     person_age,
     person_income,
     person_emp_length,
@@ -40,6 +45,9 @@ feature_inputs = [
     loan_percent_income,
     cb_person_cred_hist_length
 ]
+
+# Combine important and optional features
+feature_inputs = important_features + list(optional_features.values())
 
 # Prediction
 if st.sidebar.button("Predict Credit Risk"):
@@ -57,3 +65,5 @@ if st.sidebar.button("Predict Credit Risk"):
         st.error(f"Prediction failed: {e}")
 
 st.markdown("\n**Note:** This is a demo app. The prediction is based on the input features and model logic.")
+
+# Let me know if you want me to refine this further! 🚀
