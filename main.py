@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 
 # Load or train the model
-MODEL_FILE = 'credit_risk_model.pkl'
+MODEL_FILE = 'credit_risk.joblib'
 try:
     model = joblib.load(MODEL_FILE)
     model_loaded = True
