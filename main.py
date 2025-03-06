@@ -1,16 +1,11 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
-
-# Check for Plotly installation
-try:
-    import plotly.express as px
-except ModuleNotFoundError:
-    st.error("Plotly is not installed. Please run 'pip install plotly' or add it to your requirements.txt.")
-    st.stop()
+from sklearn.exceptions import NotFittedError
 
 # Load or train the model
 MODEL_FILE = 'credit_risk.joblib'
@@ -76,8 +71,15 @@ credit_score = st.number_input("Credit Score", min_value=300, max_value=850, val
 loan_amount = st.number_input("Loan Amount", min_value=0, value=15000)
 
 if st.button("Predict Risk"):
-    input_data = pd.DataFrame([[age, income, credit_score, loan_amount]], 
+    input_data = pd.DataFrame([[age, income, credit_score, loan_amount]],
                               columns=['Age', 'Income', 'Credit Score', 'Loan Amount'])
-    prediction = model.predict(input_data)
-    risk_status = "High Risk" if prediction[0] == 1 else "Low Risk"
-    st.subheader(f"Prediction: {risk_status}")
+    try:
+        # Ensure input matches feature names
+        input_data = input_data[X.columns]
+        prediction = model.predict(input_data)
+        risk_status = "High Risk" if prediction[0] == 1 else "Low Risk"
+        st.subheader(f"Prediction: {risk_status}")
+    except ValueError as e:
+        st.error(f"Prediction error: {e}")
+    except NotFittedError:
+        st.error("Model is not properly trained. Please retrain the model.")
