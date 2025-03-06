@@ -11,10 +11,23 @@ st.title("Credit Risk Prediction Dashboard")
 st.sidebar.header("User Input Features")
 
 # Collecting user inputs (match the number of features expected by the model)
+feature_names = [
+    "person_age",
+    "person_income",
+    "person_home_ownership",
+    "person_emp_length",
+    "loan_intent",
+    "loan_amnt",
+    "loan_int_rate",
+    "loan_status",
+    "loan_percent_income",
+    "cb_person_default_on_file",
+    "cb_person_cred_hist_length"
+]
 
 feature_inputs = []
-for i in range(16):
-    feature = st.sidebar.number_input(f"Feature {i+1}", value=0.0)
+for feature_name in feature_names:
+    feature = st.sidebar.number_input(feature_name, value=0.0)
     feature_inputs.append(feature)
 
 # Prediction
@@ -33,3 +46,5 @@ if st.sidebar.button("Predict Credit Risk"):
         st.error(f"Prediction failed: {e}")
 
 st.markdown("\n**Note:** This is a demo app. The prediction is based on the input features and model logic.")
+
+# Let me know if you want to tweak anything! 🚀
