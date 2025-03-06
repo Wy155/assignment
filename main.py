@@ -62,17 +62,21 @@ feature_inputs = important_features + list(optional_features.values())
 # Prediction
 if st.sidebar.button("Predict Credit Risk"):
     features_array = np.array([feature_inputs])
-    # st.write(f"Input features: {feature_inputs}")
     try:
         prediction = model.predict(features_array)
+        probabilities = model.predict_proba(features_array)
         
         st.subheader("Prediction Result")
         if prediction[0] == 1:
             st.success("High Risk")
         else:
             st.success("Low Risk")
+        
+        st.subheader("Prediction Probabilities")
+        st.write(f"Low Risk Probability: {probabilities[0][0] * 100:.2f}%")
+        st.write(f"High Risk Probability: {probabilities[0][1] * 100:.2f}%")
+        
     except ValueError as e:
         st.error(f"Prediction failed: {e}")
 
 st.markdown("\n**Note:** This is a demo app. The prediction is based on the input features and model logic.")
-# Let me know if you want me to refine this further! 🚀
